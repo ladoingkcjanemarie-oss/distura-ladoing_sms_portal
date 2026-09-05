@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Notification System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+        </div>
+        <h1>Emergency Notification Alert</h1>
+        <p class="description">Send an emergency SMS notification immediately.</p>
+    </div>
+
+    <form id="smsForm" action="send_sms.php" method="POST">
+
+        <div class="form-group">
+            <label for="number">Recipient Mobile Number</label>
+            <input
+                type="text"
+                id="number"
+                name="number"
+                placeholder="09171234567"
+                pattern="^(09|\+639|639)\d{9}$"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Quick Presets</label>
+            <div class="presets">
+                <button type="button" class="chip" onclick="applyPreset('EMERGENCY ALERT: Please remain calm and proceed to the designated evacuation area immediately.')">Evacuation</button>
+                <button type="button" class="chip" onclick="applyPreset('WEATHER UPDATE: Severe weather warning in effect. Stay indoors and secure loose items.')">Severe Weather</button>
+                <button type="button" class="chip" onclick="applyPreset('SECURITY ALERT: Lock down all entrances immediately. Stand by for further updates.')">Lockdown</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Emergency Message</label>
+            <textarea
+                id="message"
+                name="message"
+                rows="4"
+                maxlength="160"
+                placeholder="Enter emergency notification or select a preset..."
+                required
+            ></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn">
+            SEND EMERGENCY ALERT
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+    function applyPreset(text) {
+        const textarea = document.getElementById('message');
+        textarea.value = text;
+        textarea.focus();
+    }
+</script>
+</body>
+</html>
