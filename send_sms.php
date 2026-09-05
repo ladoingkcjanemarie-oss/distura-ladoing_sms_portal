@@ -1,7 +1,8 @@
 <?php
 header('Content-Type: application/json');
 
-$api_token = "ef245d325a4e34752e481be3b4fac9d8a927cd93";
+$api_token = "ce7dec7661f500ee7aa06ba2b1a60d0f8509836f";
+$url = "https://www.iprogsms.com/api/v1/sms_messages";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
