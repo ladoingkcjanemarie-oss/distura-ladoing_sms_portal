@@ -22,7 +22,10 @@
         <p class="description">Send an emergency SMS notification immediately.</p>
     </div>
 
-    <form id="smsForm" action="send_sms.php" method="POST">
+    <!-- Status Alert Box -->
+    <div id="statusBox" class="status-box" style="display: none;"></div>
+
+    <form id="smsForm">
 
         <div class="form-group">
             <label for="number">Recipient Mobile Number</label>
@@ -71,6 +74,44 @@
         textarea.value = text;
         textarea.focus();
     }
+
+    document.getElementById('smsForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const statusBox = document.getElementById('statusBox');
+        const formData = new FormData(this);
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'SENDING ALERT...';
+        statusBox.style.display = 'none';
+
+        try {
+            const response = await fetch('send_sms.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            statusBox.style.display = 'block';
+            if (response.ok && data.success) {
+                statusBox.className = 'status-box success';
+                statusBox.textContent = '✓ ' + data.message;
+                this.reset();
+            } else {
+                statusBox.className = 'status-box error';
+                statusBox.textContent = '✗ ' + (data.message || 'Failed to send SMS.');
+            }
+        } catch (err) {
+            statusBox.style.display = 'block';
+            statusBox.className = 'status-box error';
+            statusBox.textContent = '✗ Server connection error.';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'SEND EMERGENCY ALERT';
+        }
+    });
 </script>
 </body>
 </html>
